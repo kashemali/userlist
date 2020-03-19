@@ -34,10 +34,10 @@ function geturl($f_url){
 </div>
 	<script>
     jQuery(document).ready(function(){
-    var endpoint = "<?php echo geturl("endpoint/");?>";
+    var endpoint = "<?php echo geturl("./");?>";
 		function filteruser() {
 			$.ajax({
-				url: endpoint,
+				url: endpoint+"?all=1",
 				dataType: 'json',
 				success: function(json) {
 					$.map(json, function(item) {
