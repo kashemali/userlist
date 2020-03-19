@@ -16,6 +16,7 @@ if(!empty($_GET['id'])){
 if(!empty($_GET['all'])){
   echo $users->GetAll();
   exit();
+  
 }
 
 
