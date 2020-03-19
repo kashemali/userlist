@@ -12,7 +12,7 @@ class Userlist {
          $methods=array(
           'userlist_register_menu',
           'Enquee'
-                        );
+        );
          foreach($methods as $method){
           
           add_action( 'admin_menu', array($this,$method) );

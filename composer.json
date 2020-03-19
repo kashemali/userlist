@@ -1,7 +1,7 @@
 {
     "name": "kashemali/userlist",
     "description": "This is a simple test wp plugins",
-    "type": "project",
+    "type": "wordpress-plugin",
     "license": "GPL",
     "authors": [
         {

@@ -9,7 +9,11 @@ class EndpointUser{
      var $cached_file;
      function __construct($url){
           $this->url=$url;
-          $this->cached_file=dirname(__FILE__,2)."/data/all.cache.json";
+          $dir=dirname(__FILE__,2)."/data";
+          if (!file_exists($dir)) {
+               mkdir($dir, 0777, true);
+          }
+          $this->cached_file=$dir."/all.cache.json";
      }
      function GetAll(){
           return $this->Result();
