@@ -38,8 +38,6 @@ function geturl($f_url){
 </div>
 	<script>
     var endpoint = "<?php echo geturl("endpoint/");?>";
-    
-		
 		function filteruser() {
 			$.ajax({
 				url: endpoint,
@@ -63,6 +61,7 @@ function geturl($f_url){
 				}
 			});
 		}filteruser();
+     var last;
     function view(id) {
               $.ajax({
             dataType: "json",
@@ -76,7 +75,10 @@ function geturl($f_url){
                <tr><td>Phone:</td><td>{phone}</td></tr>
                <tr><td>Website:</td><td>{website}</td></tr>
                </table>`,json);
-               $('<div/>').dialog({title:"User Information",show: "slideDown",
+               if (last) {
+                   $(last).dialog('destroy');
+               }
+                last=$('<div/>').dialog({title:"User Information",show: "slideDown",
 		hide: "slideUp"}).prepend(html);
             }
         });

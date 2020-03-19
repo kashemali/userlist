@@ -1,28 +1,22 @@
 <?php
-/*
-* Name: UserList
-*/
+/**
+ * User List Page
+ */
+
+require_once( ABSPATH . 'wp-load.php' );
+require_once( ABSPATH . 'wp-admin/admin.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 function geturl($f_url){
-  return $f_url;
+  return esc_url( plugins_url( $f_url, dirname(__FILE__) ));
 }
+
 ?>
-<!DOCTYPE html>
 
-<html>
 
-<head>
-	<title>Users List</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=5.0" />
-   <base href="userfetch"
-	<link rel="stylesheet" href="<?php echo geturl('style.css');?>">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-  <script src="<?php echo geturl('common.js');?>"></script>
 
 <div >
 	<table class="usertable" id="userlist" style="width: 100%;">
-		<caption><h1>Users List</h1> <a onclick="filteruser();">Refresh</a></caption>
+		<caption><h1>Users List</h1> <a class="refresh">Refresh</a></caption>
 		<thead>
 			<tr>
 				<th>ID</th>
@@ -39,6 +33,7 @@ function geturl($f_url){
 	</table>
 </div>
 	<script>
+    jQuery(document).ready(function(){
     var endpoint = "<?php echo geturl("endpoint/");?>";
 		function filteruser() {
 			$.ajax({
@@ -48,9 +43,9 @@ function geturl($f_url){
 					$.map(json, function(item) {
 						item['class'] = "user" + item.id;
 						var html = sprint(`<tr class="{class}">
-						<td align="center" label="ID" ><a onclick="view({id});">{id}</a></td>
-						<td align="center" label="Name"><a onclick="view({id});">{name}</a></td>
-						<td align="center" label="Username"><a onclick="view({id});">{username}</a></td>
+						<td align="center" label="ID" ><a class="view" data-id="{id}">{id}</a></td>
+						<td align="center" label="Name"><a class="view" data-id="{id}">{name}</a></td>
+						<td align="center" label="Username"><a class="view" data-id="{id}">{username}</a></td>
 						<td align="center" label="Email">{email}</td>
 						<td align="center" label="Phone">{phone}</td>
 						<td align="center" label="website">{website}</td>
@@ -85,8 +80,12 @@ function geturl($f_url){
             }
         });
     }
-     
+     $('.refresh').click(function(){
+      filteruser();
+     });
+     $(document).off().on('click','.view',function(){
+      view($(this).data("id"));
+     });
+    });
 	</script>
-</body>
-
-</html>
+<?php //include( ABSPATH . 'wp-admin/admin-footer.php' );?>

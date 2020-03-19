@@ -77,7 +77,7 @@ class httpget
         foreach($lines as $line)
             if(($pos = strpos($line, ':')) !== false)
                 $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
-       print_r($headers);
+      // print_r($headers);
         // redirection?
         if(isset($headers['location']))
         {

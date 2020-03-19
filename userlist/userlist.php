@@ -12,37 +12,18 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       userlist
  */
-
-
-
-function userlist_register_menu() {
-	add_plugins_page( 'User List', 'User List', 'read', 'user-list','userlist_page');
+$autoload_file=dirname(__FILE__)."/vendor/autoload.php";
+if(file_exists($autoload_file)){
+	require_once($autoload_file);
 }
+use Inc\Userlist;
 
-add_action( 'admin_menu', 'userlist_register_menu' );
+$Userlist=new Userlist();
+$Userlist->Init();
 
-function userlist_page() {
-    	include_once( 'page.php'  );
-    }
-add_action('load-index.php', 'userlist_page');
+register_activation_hook( __FILE__, array($Userlist,"Activate"));
 
-function page() {
-	wp_redirect( admin_url( 'plugins.php?page=user-list' ) );
+register_deactivation_hook( __FILE__, array($Userlist,"Dectivate"));
 
-}
-
-function userlist_install() {
-    page();
-}
-register_activation_hook( __FILE__, 'userlist_install' );
-
-function userlist_deactivation() {
-    return false;
-}
-register_deactivation_hook( __FILE__, 'userlist_deactivation' );
-
-function userlist_uninstall() {
-    return false;
-}
-register_uninstall_hook(__FILE__, 'userlist_uninstall');
+register_uninstall_hook(__FILE__, array($Userlist,"Uninstall"));
 ?>
