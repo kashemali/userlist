@@ -21,9 +21,9 @@ use Inc\Userlist;
 $Userlist=new Userlist();
 $Userlist->Init();
 
-register_activation_hook( __FILE__, array($Userlist,"Activate"));
+register_activation_hook( __FILE__, array($Userlist,"activate"));
 
-register_deactivation_hook( __FILE__, array($Userlist,"Dectivate"));
+register_deactivation_hook( __FILE__, array($Userlist,"dectivate"));
 
-register_uninstall_hook(__FILE__, array($Userlist,"Uninstall"));
+register_uninstall_hook(__FILE__, array($Userlist,"uninstall"));
 ?>

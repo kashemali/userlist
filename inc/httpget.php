@@ -73,26 +73,26 @@ class Httpget
         $body = substr($response, $pos + 2 * strlen($crlf));
        
         // parse headers
-        $headers = array();
+        $res = array();
         $lines = explode($crlf, $header);
         foreach($lines as $k=>$line){
               if($k==0){
-                $headers['status']=(int)substr($line, 9, 3);
+                $res['status']=(int)substr($line, 9, 3);
               }
             if(($pos = strpos($line, ':')) !== false)
-                $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
+                $res[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
         }
         
         // redirection?
-        if(isset($headers['location']))
+        if(isset($res['location']))
         {
-            $http = new httpget($headers['location']);
+            $http = new httpget($res['location']);
             return($http->data($http));
         }
         else
         {
-          $headers['body']=$body;
-          return (object)$headers;
+          $res['body']=$body;
+          return (object)$res;
             
         }
     }

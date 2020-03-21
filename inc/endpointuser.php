@@ -25,8 +25,8 @@ class EndpointUser{
           return $this->Result();
      }
      function Result(){
-          $r=(new httpget($this->url))->data();
-          if($r->status ===200){
+          $r=(new Httpget($this->url))->data();
+          if($r->status ===200 && !empty($r->body)){
                file_put_contents($this->cached_file, $r->body);
                return $r->body;
           }else{
