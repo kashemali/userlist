@@ -1,99 +1,101 @@
 <?php
 /*
-* @Package: UserList
+* @Package: Httpget
 */
+
+declare(strict_types=1);
 namespace Inc;
+
 class Httpget
 {
-    var $_fp;        // HTTP socket
-    var $_url;        // full URL
-    var $_host;        // HTTP host
-    var $_protocol;    // protocol (HTTP/HTTPS)
-    var $_uri;        // request URI
-    var $_port;        // port
-   
+    private $fpI;        // HTTP socket
+    private $url;        // full URL
+    private $host;        // HTTP host
+    private $protocol;    // protocol (HTTP/HTTPS)
+    private $uri;        // request URI
+    private $port;        // port
+
     // constructor
-    function __construct($url)
+    public function __construct(string $url)
     {
-        $this->_url = $url;
-        $this->_parse_url();
+        $this->url = $url;
+        $this->parseUrl();
     }
+
     // scan url
-    function _parse_url()
+    private function parseUrl():int
     {
-        $req = $this->_url;
-       
+        $req = $this->url;
+
         $pos = strpos($req, '://');
-        $this->_protocol = strtolower(substr($req, 0, $pos));
-       
+        $this->protocol = strtolower(substr($req, 0, $pos));
+
         $req = substr($req, $pos+3);
         $pos = strpos($req, '/');
-        if($pos === false)
+        if ($pos === false) {
             $pos = strlen($req);
+        }
         $host = substr($req, 0, $pos);
-       
-        if(strpos($host, ':') !== false)
-        {
-            list($this->_host, $this->_port) = explode(':', $host);
+
+        $this->uri = substr($req, $pos);
+        if ($this->uri === '') {
+            $this->uri = '/';
         }
-        else
-        {
-            $this->_host = $host;
-            $this->_port = ($this->_protocol == 'https') ? 443 : 80;
+        if (strpos($host, ':') !== false) {
+            list($this->host, $this->port) = explode(':', $host);
+            return 1;
         }
-       
-        $this->_uri = substr($req, $pos);
-        if($this->_uri == '')
-            $this->_uri = '/';
+        $this->host = $host;
+        $this->port = ($this->protocol === 'https') ? 443 : 80;
+        return 1;
     }
-   
+
     // download URL to string
-    function data()
+    public function data():array
     {
         $crlf = "\r\n";
-       
+
         // generate request
-        $req = 'GET ' . $this->_uri . ' HTTP/1.0' . $crlf
-            .    'Host: ' . $this->_host . $crlf
+        $req = 'GET ' . $this->uri . ' HTTP/1.0' . $crlf
+            .    'Host: ' . $this->host . $crlf
             .    $crlf;
-       
+
         // fetch
-        $this->_fp = fsockopen(($this->_protocol == 'https' ? 'ssl://' : '') . $this->_host, $this->_port);
-        fwrite($this->_fp, $req);
+        $this->fpI = fsockopen(($this->protocol === 'https' ? 'ssl://' : '') . $this->host, $this->port);
+        fwrite($this->fpI, $req);
         $response="";
-        while(is_resource($this->_fp) && $this->_fp && !feof($this->_fp))
-            $response .= fread($this->_fp, 1024);
-        fclose($this->_fp);
-       
+        while (is_resource($this->fpI) && $this->fpI && !feof($this->fpI)) {
+            $response .= fread($this->fpI, 1024);
+        }
+        fclose($this->fpI);
+
         // split header and body
         $pos = strpos($response, $crlf . $crlf);
-        if($pos === false)
+        if ($pos === false) {
             return($response);
+        }
         $header = substr($response, 0, $pos);
         $body = substr($response, $pos + 2 * strlen($crlf));
-       
+
         // parse headers
-        $res = array();
+        $res = [];
         $lines = explode($crlf, $header);
-        foreach($lines as $k=>$line){
-              if($k==0){
+        foreach ($lines as $key => $line) {
+            if ($key===0) {
                 $res['status']=(int)substr($line, 9, 3);
-              }
-            if(($pos = strpos($line, ':')) !== false)
+            }
+            $pos = strpos($line, ':');
+            if ($pos !== false) {
                 $res[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
+            }
         }
-        
+
         // redirection?
-        if(isset($res['location']))
-        {
+        if (isset($res['location'])) {
             $http = new httpget($res['location']);
             return($http->data($http));
         }
-        else
-        {
-          $res['body']=$body;
-          return (object)$res;
-            
-        }
+        $res['body']=$body;
+        return $res;
     }
 }

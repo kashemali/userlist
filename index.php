@@ -10,13 +10,13 @@ use Inc\EndpointUser;
 $endpoint="https://jsonplaceholder.typicode.com/users/";
 $users=new EndpointUser($endpoint);
 if(!empty($_GET['id'])){
-  echo $users->GetbyId($_GET['id']);
+  echo $users->byId($_GET['id']);
   exit();
 }
 if(!empty($_GET['all'])){
-  echo $users->GetAll();
+  echo $users->all();
   exit();
-  
+
 }
 
 
@@ -74,9 +74,9 @@ function geturl($f_url){
 						<td align="center" label="Email">{email}</td>
 						<td align="center" label="Phone">{phone}</td>
 						<td align="center" label="website">{website}</td>
-						
+
 					</tr>`, item);
-            
+
 						$('#userlist .' + item['class']).remove();
 						$('#userlist tbody').append(html);
 					});
@@ -88,7 +88,7 @@ function geturl($f_url){
               $.ajax({
             dataType: "json",
             url: endpoint+"?id="+id,
-            success: function(json){     
+            success: function(json){
                html=sprint(`<table class="table table-bordered table-striped">
                <tr><td>ID:</td><td>{id}</td></tr>
                <tr><td>Name:</td><td>{name}</td></tr>
