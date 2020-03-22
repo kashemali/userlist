@@ -28,7 +28,7 @@ class ComposerStaticInitf761f0663eba83ef1bc4860c52834f7a
         ),
         'Inc\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Inc',
+            0 => __DIR__ . '/../..' . '/inc',
         ),
         'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 
         array (
