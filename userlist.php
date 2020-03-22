@@ -23,9 +23,10 @@
  */
 
 declare(strict_types=1);
-$autoloadfile=dirname(__FILE__)."/autoload.php";
-if (file_exists($autoloadfile)) {
-    require_once($autoloadfile);
+declare(strict_types=1);
+ $autoloadFile = dirname(__FILE__) . '/vendor/autoload.php';
+if (file_exists($autoloadFile)) {
+    require_once $autoloadFile;
 }
 use Inc\UserList;
 

@@ -2,9 +2,10 @@
 /*
 * @Package: UserList
 */
-$autoload_file=dirname(__FILE__)."/autoload.php";
-if(file_exists($autoload_file)){
-	require_once($autoload_file);
+declare(strict_types=1);
+ $autoloadFile = dirname(__FILE__) . '/vendor/autoload.php';
+if (file_exists($autoloadFile)) {
+    require_once $autoloadFile;
 }
 use Inc\EndpointUser;
 $endpoint="https://jsonplaceholder.typicode.com/users/";
