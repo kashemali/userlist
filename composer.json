@@ -26,6 +26,6 @@
 			"wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
 		}
 	},"autoload":{
-	 "psr-4":{"Inc\\":"./Inc"}
+	 "psr-4":{"Inc\\":"./inc"}
 	}
 }
