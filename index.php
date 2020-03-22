@@ -2,7 +2,7 @@
 /*
 * @Package: UserList
 */
-$autoload_file=dirname(__FILE__)."/vendor/autoload.php";
+$autoload_file=dirname(__FILE__)."/autoload.php";
 if(file_exists($autoload_file)){
 	require_once($autoload_file);
 }

@@ -1,0 +1,34 @@
+{
+	"require": {
+		"kashemali/userlist": "dev-master"
+	},
+	"autoload":{
+	 "psr-4":{"Inc\\":"./inc"}
+	},
+	"minimum-stability": "dev",
+	"repositories": [{
+		"type": "package",
+		"package": {
+			"name": "kashemali/userlist",
+			"type": "wordpress-plugin",
+			"version": "dev-master",
+			"dist": {
+				"type": "git",
+				"url": "https://github.com/kashemali/userlist.git"
+			},
+			"source": {
+				"url": "https://github.com/kashemali/userlist.git",
+				"type": "git",
+				"reference": "86442b1"
+			},
+			"require": {
+				"composer/installers": "v1.0.7"
+			}
+		}
+	}],
+	"extra": {
+		"installer-paths": {
+			"wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
+		}
+	}
+}
