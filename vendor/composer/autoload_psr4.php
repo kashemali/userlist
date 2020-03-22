@@ -7,6 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'NeutronStandard\\' => array($vendorDir . '/automattic/phpcs-neutron-standard/NeutronStandard'),
-    'Inc\\' => array($baseDir . '/inc'),
+    'Inc\\' => array($baseDir . '/Inc'),
     'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => array($vendorDir . '/dealerdirect/phpcodesniffer-composer-installer/src'),
 );
